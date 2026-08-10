@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rota até a FUVEST</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --bg: #F5F6F8;
+    --panel: #FFFFFF;
+    --ink: #1E2A38;
+    --ink-soft: #5B6B7C;
+    --line: #DCE1E7;
+    --math: #3B5BA9;
+    --math-bg: #EBEFF9;
+    --fis: #16806A;
+    --fis-bg: #E6F3EF;
+    --qui: #B5751E;
+    --qui-bg: #FBF0DF;
+    --rev: #1E2A38;
+    --rev-bg: #EDEEF0;
+    --exam: #A83A3A;
+    --exam-bg: #FBEAEA;
+    --now: #2F7D5A;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Manrope',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  .wrap{max-width:840px;margin:0 auto;padding:40px 20px 100px;}
+
+  .hero{ background: var(--ink); color:#fff; border-radius:20px; padding:36px 32px; margin-bottom:36px; position:relative; overflow:hidden; }
+  .hero::after{ content:""; position:absolute; right:-40px; top:-40px; width:200px;height:200px; border-radius:50%; background:radial-gradient(circle, rgba(59,91,169,0.35), transparent 70%); }
+  .eyebrow{ font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#9FB0C6; margin-bottom:10px; }
+  .hero h1{ font-size:30px; margin:0 0 12px; font-weight:800; letter-spacing:-0.02em; }
+  .hero p{ color:#C9D3E0; font-size:15px; max-width:520px; margin:0; }
+  .hero-dates{ display:flex; gap:16px; margin-top:24px; flex-wrap:wrap; position:relative; z-index:1; }
+  .hero-date{ background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); border-radius:12px; padding:12px 16px; min-width:150px; }
+  .hero-date .label{font-size:11px;color:#9FB0C6;text-transform:uppercase;letter-spacing:.08em;}
+  .hero-date .date{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;margin-top:2px;}
+  .hero-date .sub{font-size:11.5px;color:#9FB0C6;margin-top:4px;}
+
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:36px; }
+  .stat{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px; text-align:center; }
+  .stat .n{font-family:'Space Mono',monospace;font-weight:700;font-size:22px;}
+  .stat .l{font-size:11.5px;color:var(--ink-soft);margin-top:2px;}
+  .stat.math .n{color:var(--math);} .stat.fis .n{color:var(--fis);} .stat.qui .n{color:var(--qui);}
+  @media (max-width:640px){ .stats{grid-template-columns:repeat(2,1fr);} }
+
+  .recap{ background:var(--panel); border:1px dashed var(--line); border-radius:14px; padding:20px 22px; margin-bottom:40px; }
+  .recap h3{margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);}
+  .recap-items{display:flex;flex-direction:column;gap:8px;}
+  .recap-item{display:flex;gap:10px;font-size:14.5px;align-items:baseline;}
+  .recap-item .tag{font-weight:700;font-size:12px;padding:2px 8px;border-radius:6px;white-space:nowrap;}
+
+  .tag.math{background:var(--math-bg);color:var(--math);}
+  .tag.fis{background:var(--fis-bg);color:var(--fis);}
+  .tag.qui{background:var(--qui-bg);color:var(--qui);}
+  .tag.rev{background:var(--rev-bg);color:var(--rev);}
+
+  .section-title{ font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-soft); margin:44px 0 18px; display:flex; align-items:center; gap:10px; }
+  .section-title::after{content:"";flex:1;height:1px;background:var(--line);}
+
+  .timeline{position:relative;padding-left:28px;}
+  .timeline::before{ content:""; position:absolute; left:9px; top:6px; bottom:6px; width:2px; background:var(--line); }
+  .month-label{ font-family:'Space Mono',monospace; font-size:12px; color:var(--ink-soft); margin:22px 0 10px; }
+  .month-label:first-child{margin-top:0;}
+
+  .week{position:relative;margin-bottom:12px;}
+  .week::before{ content:""; position:absolute; left:-27px; top:14px; width:11px;height:11px; border-radius:50%; background:var(--panel); border:2px solid var(--line); }
+  .week.mathweek::before{border-color:var(--math);}
+  .week.mixweek::before{border-color:var(--fis);}
+  .week.reviewweek::before{border-color:var(--ink);background:var(--ink);}
+  .week.current::before{ background:var(--now); border-color:var(--now); box-shadow:0 0 0 4px rgba(47,125,90,0.18); }
+  .here-flag{ display:inline-block; font-family:'Space Mono',monospace; font-size:10.5px; font-weight:700; color:var(--now); background:#E8F5EE; border-radius:6px; padding:2px 7px; margin-left:8px; letter-spacing:.04em; }
+
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .card .dates{ font-family:'Space Mono',monospace; font-size:11.5px; color:var(--ink-soft); margin-bottom:8px; }
+  .subject-line{ display:flex; gap:10px; align-items:flex-start; font-size:14.5px; margin-top:6px; }
+  .subject-line:first-of-type{margin-top:0;}
+  .subject-line .tag{ font-weight:700; font-size:11.5px; padding:2px 8px; border-radius:6px; white-space:nowrap; margin-top:1px; }
+
+  .milestone{ position:relative; margin:24px 0 24px -28px; padding:18px 20px 18px 46px; background:var(--exam-bg); border:1px solid #EFC9C9; border-radius:14px; }
+  .milestone::before{ content:""; position:absolute; left:14px; top:50%; transform:translateY(-50%); width:16px;height:16px; border-radius:50%; background:var(--exam); box-shadow:0 0 0 5px #fff, 0 0 0 6px var(--exam); }
+  .milestone .m-title{font-weight:800;color:var(--exam);font-size:15.5px;}
+  .milestone .m-date{font-family:'Space Mono',monospace;font-size:12px;color:var(--exam);opacity:.85;margin-top:2px;}
+  .milestone .m-sub{font-size:13px;color:#7a3a3a;margin-top:6px;}
+
+  .note{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin-top:16px; font-size:14px; color:var(--ink-soft); }
+  .footer{text-align:center;margin-top:48px;font-size:13.5px;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Cronograma de preparação · Matemática · Física · Química</div>
+    <h1>Sua rota até a FUVEST</h1>
+    <p>Um caminho semana a semana, do que já foi construído em julho até o dia da prova.</p>
+    <div class="hero-dates" id="hero-dates"></div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="recap">
+    <h3>O que você já construiu em julho</h3>
+    <div class="recap-items">
+      <div class="recap-item"><span class="tag math">MAT</span> Funções afim e quadrática, representações gráficas, resolução de simulados</div>
+      <div class="recap-item"><span class="tag fis">FÍS</span> Cinemática</div>
+      <div class="recap-item"><span class="tag qui">QUÍ</span> Balanceamento de equações e início de estequiometria</div>
+    </div>
+  </div>
+
+  <div class="section-title">Até a 1ª fase — 01 de novembro</div>
+  <div class="timeline" id="timeline1"></div>
+
+  <div class="milestone">
+    <div class="m-title">1ª fase — FUVEST</div>
+    <div class="m-date">domingo, 01/11/2026</div>
+    <div class="m-sub">Prova de todas as áreas, múltipla escolha.</div>
+  </div>
+
+  <div class="section-title">Até a 2ª fase — 07 de dezembro</div>
+  <div class="note" style="margin-bottom:24px;">
+    A partir daqui o foco muda: as provas específicas dele são <strong>matemática, história e geografia</strong>. Este cronograma cobre a parte de matemática — vale reforçar com ele que história e geografia seguem em paralelo, com quem estiver cuidando dessas frentes.
+  </div>
+  <div class="timeline" id="timeline2"></div>
+
+  <div class="milestone">
+    <div class="m-title">2ª fase — FUVEST</div>
+    <div class="m-date">segunda-feira, 07/12/2026</div>
+    <div class="m-sub">Provas dissertativas das áreas específicas do curso.</div>
+  </div>
+
+  <div class="footer">Um passo de cada vez — dá tempo. 🌊</div>
+
+</div>
+
+<script>
+/* ======================================================================
+   EDITE SÓ AQUI DE BAIXO. O resto do arquivo (acima) é só o "molde" —
+   não precisa encostar nele.
+
+   Cada semana é um bloco { inicio: "...", fim: "...", itens: [ ... ] }.
+   - inicio / fim: data no formato "AAAA-MM-DD" (ano-mês-dia)
+   - itens: lista do que é dado naquela semana. Cada item tem:
+       materia: "MAT" (azul) | "FIS" (verde) | "QUI" (laranja) | "REV" (revisão, cinza)
+       aulas: quantas aulas daquele assunto naquela semana (número)
+       conteudo: o texto que aparece, em aspas
+
+   PARA MUDAR um conteúdo: troque o texto dentro das aspas em "conteudo".
+   PARA ADICIONAR uma semana: copie um bloco inteiro { ... }, cole
+   numa linha nova (não esqueça a vírgula entre blocos), e edite os valores.
+   PARA REMOVER uma semana: apague o bloco { ... } inteiro (e a vírgula sobrando).
+
+   Depois de editar, salve o arquivo (Ctrl+S) e reenvie pra ele — é só isso.
+   A data de "hoje" e a semana marcada como "você está aqui" se atualizam
+   sozinhas, sem precisar editar nada.
+====================================================================== */
+
+const PRIMEIRA_FASE = "2026-11-01";
+const SEGUNDA_FASE  = "2026-12-07";
+
+const semanas1 = [ // até a 1ª fase
+  { inicio:"2026-08-10", fim:"2026-08-16", itens:[
+    { materia:"MAT", aulas:2, conteudo:"Geometria plana + trigonometria no triângulo" } ] },
+  { inicio:"2026-08-17", fim:"2026-08-23", itens:[
+    { materia:"FIS", aulas:1, conteudo:"Dinâmica — Leis de Newton" },
+    { materia:"QUI", aulas:1, conteudo:"Soluções — concentração e diluição" } ] },
+  { inicio:"2026-08-24", fim:"2026-08-30", itens:[
+    { materia:"MAT", aulas:2, conteudo:"Progressões — PA e PG" } ] },
+  { inicio:"2026-08-31", fim:"2026-09-06", itens:[
+    { materia:"FIS", aulas:1, conteudo:"Trabalho, energia e potência" },
+    { materia:"QUI", aulas:1, conteudo:"Termoquímica" } ] },
+  { inicio:"2026-09-07", fim:"2026-09-13", itens:[
+    { materia:"MAT", aulas:2, conteudo:"Matemática financeira — juros simples e compostos" } ] },
+  { inicio:"2026-09-14", fim:"2026-09-20", itens:[
+    { materia:"FIS", aulas:1, conteudo:"Estática e hidrostática" },
+    { materia:"QUI", aulas:1, conteudo:"Cinética química" } ] },
+  { inicio:"2026-09-21", fim:"2026-09-27", itens:[
+    { materia:"MAT", aulas:2, conteudo:"Logaritmos e exponenciais" } ] },
+  { inicio:"2026-09-28", fim:"2026-10-04", itens:[
+    { materia:"FIS", aulas:1, conteudo:"Gravitação + introdução a ondas" },
+    { materia:"QUI", aulas:1, conteudo:"Equilíbrio químico" } ] },
+  { inicio:"2026-10-05", fim:"2026-10-11", itens:[
+    { materia:"MAT", aulas:2, conteudo:"Geometria espacial — prismas, cilindros, pirâmides, esfera" } ] },
+  { inicio:"2026-10-12", fim:"2026-10-18", itens:[
+    { materia:"FIS", aulas:1, conteudo:"Termologia + introdução à óptica" },
+    { materia:"QUI", aulas:1, conteudo:"Eletroquímica — pilhas e eletrólise" } ] },
+  { inicio:"2026-10-19", fim:"2026-10-25", itens:[
+    { materia:"MAT", aulas:2, conteudo:"Geometria analítica + matrizes e sistemas lineares" } ] },
+  { inicio:"2026-10-26", fim:"2026-11-01", itens:[
+    { materia:"REV", aulas:2, conteudo:"Revisão geral (fechando eletricidade e química orgânica) + simulado completo, todas as matérias" } ] },
+];
+
+const semanas2 = [ // entre as duas fases
+  { inicio:"2026-11-02", fim:"2026-11-08", itens:[
+    { materia:"MAT", aulas:2, conteudo:"Análise combinatória, probabilidade e estatística — foco dissertativo" } ] },
+  { inicio:"2026-11-09", fim:"2026-11-15", itens:[
+    { materia:"MAT", aulas:2, conteudo:"Geometria aplicada a questões dissertativas, resolução comentada" } ] },
+  { inicio:"2026-11-16", fim:"2026-11-22", itens:[
+    { materia:"MAT", aulas:2, conteudo:"Funções, progressões e logaritmos — revisão com provas antigas de 2ª fase" } ] },
+  { inicio:"2026-11-23", fim:"2026-11-29", itens:[
+    { materia:"MAT", aulas:2, conteudo:"Simulados cronometrados de 2ª fase + correção de erros" } ] },
+  { inicio:"2026-11-30", fim:"2026-12-06", itens:[
+    { materia:"REV", aulas:2, conteudo:"Revisão leve, fórmulas-chave, sem conteúdo novo pesado" } ] },
+];
+
+/* ====================== A partir daqui é só o motor. Não precisa editar. ====================== */
+
+const MESES = ['JANEIRO','FEVEREIRO','MARÇO','ABRIL','MAIO','JUNHO','JULHO','AGOSTO','SETEMBRO','OUTUBRO','NOVEMBRO','DEZEMBRO'];
+const MATERIA_LABEL = { MAT:'MAT', FIS:'FÍS', QUI:'QUÍ', REV:'REVISÃO' };
+const MATERIA_CLASS = { MAT:'math', FIS:'fis', QUI:'qui', REV:'rev' };
+
+function parseISO(s){ const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); }
+function hojeSemHora(){ const t = new Date(); return new Date(t.getFullYear(), t.getMonth(), t.getDate()); }
+function pad2(n){ return String(n).padStart(2,'0'); }
+function fmtDia(d){ return `${pad2(d.getDate())}/${pad2(d.getMonth()+1)}`; }
+function fmtRange(inicio, fim){
+  const di = parseISO(inicio), df = parseISO(fim);
+  if(di.getMonth() === df.getMonth()) return `${pad2(di.getDate())} – ${pad2(df.getDate())}/${pad2(di.getMonth()+1)}`;
+  return `${fmtDia(di)} – ${fmtDia(df)}`;
+}
+function diasAte(iso){ return Math.round((parseISO(iso) - hojeSemHora()) / 86400000); }
+
+function weekTypeClass(semana){
+  const materias = semana.itens.map(i=>i.materia);
+  if(materias.length===1 && materias[0]==='REV') return 'reviewweek';
+  if(materias.every(m=>m==='MAT')) return 'mathweek';
+  return 'mixweek';
+}
+
+function renderTimeline(containerId, semanas){
+  const el = document.getElementById(containerId);
+  const hoje = hojeSemHora();
+  let lastMonth = null;
+  semanas.forEach(sem => {
+    const inicioD = parseISO(sem.inicio);
+    const monthLabel = MESES[inicioD.getMonth()];
+    if(monthLabel !== lastMonth){
+      const m = document.createElement('div');
+      m.className = 'month-label';
+      m.textContent = monthLabel;
+      el.appendChild(m);
+      lastMonth = monthLabel;
+    }
+    const isCurrent = hoje >= inicioD && hoje <= parseISO(sem.fim);
+    const weekDiv = document.createElement('div');
+    weekDiv.className = 'week ' + weekTypeClass(sem) + (isCurrent ? ' current' : '');
+
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const dateLine = document.createElement('div');
+    dateLine.className = 'dates';
+    dateLine.textContent = fmtRange(sem.inicio, sem.fim);
+    if(isCurrent){
+      const flag = document.createElement('span');
+      flag.className = 'here-flag';
+      flag.textContent = 'você está aqui';
+      dateLine.appendChild(document.createTextNode(' '));
+      dateLine.appendChild(flag);
+    }
+    card.appendChild(dateLine);
+
+    sem.itens.forEach(item => {
+      const line = document.createElement('div');
+      line.className = 'subject-line';
+      const tag = document.createElement('span');
+      tag.className = 'tag ' + MATERIA_CLASS[item.materia];
+      tag.textContent = MATERIA_LABEL[item.materia];
+      line.appendChild(tag);
+      line.appendChild(document.createTextNode(item.conteudo));
+      card.appendChild(line);
+    });
+
+    weekDiv.appendChild(card);
+    el.appendChild(weekDiv);
+  });
+}
+
+function renderHero(){
+  const el = document.getElementById('hero-dates');
+  const diasP = diasAte(PRIMEIRA_FASE);
+  const diasS = diasAte(SEGUNDA_FASE);
+  const hojeStr = hojeSemHora().toLocaleDateString('pt-BR');
+  el.innerHTML = `
+    <div class="hero-date">
+      <div class="label">1ª fase</div>
+      <div class="date">01 / 11 / 2026</div>
+      <div class="sub">${diasP >= 0 ? 'faltam ' + diasP + ' dias' : 'já passou'}</div>
+    </div>
+    <div class="hero-date">
+      <div class="label">2ª fase</div>
+      <div class="date">07 / 12 / 2026</div>
+      <div class="sub">${diasS >= 0 ? 'faltam ' + diasS + ' dias' : 'já passou'}</div>
+    </div>
+    <div class="hero-date">
+      <div class="label">Hoje</div>
+      <div class="date">${hojeStr}</div>
+    </div>`;
+}
+
+function renderStats(){
+  const todas = semanas1;
+  const soma = (mat) => todas.reduce((acc,s)=> acc + s.itens.filter(i=>i.materia===mat).reduce((a,i)=>a+i.aulas,0), 0);
+  const el = document.getElementById('stats');
+  el.innerHTML = `
+    <div class="stat math"><div class="n">${soma('MAT')}</div><div class="l">aulas de matemática até a 1ª fase</div></div>
+    <div class="stat fis"><div class="n">${soma('FIS')}</div><div class="l">aulas de física até a 1ª fase</div></div>
+    <div class="stat qui"><div class="n">${soma('QUI')}</div><div class="l">aulas de química até a 1ª fase</div></div>
+    <div class="stat"><div class="n">${semanas1.length}</div><div class="l">semanas até a 1ª fase</div></div>`;
+}
+
+renderHero();
+renderStats();
+renderTimeline('timeline1', semanas1);
+renderTimeline('timeline2', semanas2);
+</script>
+</body>
+</html>
